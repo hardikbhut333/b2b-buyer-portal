@@ -116,10 +116,21 @@ export const updateCart = async (cartInfo: any, productData: any) => {
 
 export const callCart = async (lineItems: LineItems[] | CustomFieldItems[]) => {
   const cartInfo = await getCart();
-
   const res = cartInfo?.data?.site?.cart
     ? await updateCart(cartInfo, lineItems)
     : await createNewShoppingCart(lineItems);
-
+  if (!cartInfo?.data?.site?.cart) {
+    const headers = new Headers();
+    headers.append('content-type', 'application/json');
+    const requestOptions: any = {
+      method: 'GET',
+      headers,
+      redirect: 'follow',
+    };
+    await fetch(
+      `/exp-sf-cms/api/bc/carts/set/${res?.data?.cart?.createCart?.cart?.entityId}`,
+      requestOptions,
+    );
+  }
   return res;
 };

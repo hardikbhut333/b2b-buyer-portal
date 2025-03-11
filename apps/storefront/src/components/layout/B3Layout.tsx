@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useB3Lang } from '@b3/lang';
 import { Box, useMediaQuery } from '@mui/material';
 
@@ -41,14 +41,11 @@ export default function B3Layout({ children }: { children: ReactNode }) {
     dispatch,
   } = useContext(DynamicallyVariableContext);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     if ((!emailAddress || !customerId) && !getIsTokenGotoPage(location.pathname)) {
-      navigate('/login');
+      window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
     }
     // disabling cause navigate dispatcher is not necessary here
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailAddress, customerId, location]);
 
   useEffect(() => {

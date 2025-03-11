@@ -71,10 +71,8 @@ function Registered(props: PageProps) {
 
   useEffect(() => {
     if (!registerEnabled) {
-      navigate('/login');
+      window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
     }
-    // disabling as we dont need to check for any changes in the navigate function
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [registerEnabled]);
 
   useEffect(() => {
@@ -280,7 +278,7 @@ function Registered(props: PageProps) {
         if (isCloseGotoBCHome) {
           window.location.href = '/';
         } else {
-          navigate('/orders');
+          window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
         }
       } catch (error) {
         b2bLogger.error(error);

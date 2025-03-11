@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useB3Lang } from '@b3/lang';
 import { Box } from '@mui/material';
 
@@ -20,8 +20,6 @@ function Payment() {
   const [open, setOpen] = useState<boolean>(false);
 
   const params = useParams();
-
-  const navigate = useNavigate();
 
   const b3Lang = useB3Lang();
 
@@ -78,7 +76,7 @@ function Payment() {
   }, [platform, params.id]);
 
   const handleConfirm = () => {
-    navigate('/login');
+    window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
   };
 
   return (

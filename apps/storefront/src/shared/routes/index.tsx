@@ -137,14 +137,14 @@ const gotoAllowedAppPage = async (
   const { company } = currentState;
   const isLoggedIn = company.customer || role !== CustomerRole.GUEST;
   if (!isLoggedIn) {
-    gotoPage('/login?loginFlag=loggedOutLogin&&closeIsLogout=1');
+    window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
     return;
   }
 
   const isInvoicePage = () => invoiceTypes.some((type: string) => href.includes(type));
 
   if (denyInvoiceRoles.includes(role) && isInvoicePage()) {
-    gotoPage('/login?loginFlag=invoiceErrorTip');
+    window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
     return;
   }
   try {
@@ -152,7 +152,7 @@ const gotoAllowedAppPage = async (
 
     if (!isBcLogin && isB2bTokenPage()) {
       logoutSession();
-      gotoPage('/login?loginFlag=deviceCrowdingLogIn');
+      window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
       return;
     }
   } catch (err: unknown) {

@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { B2BEvent, useB2BCallback } from '@b3/hooks';
 import { useB3Lang } from '@b3/lang';
 import { Box, Button, Grid, Typography } from '@mui/material';
@@ -24,7 +23,6 @@ export default function MainHeader({ title }: { title: string }) {
     ({ b2bFeatures }) => b2bFeatures.masqueradeCompany.companyName,
   );
   const cartNumber = useAppSelector(({ global }) => global.cartNumber);
-  const navigate = useNavigate();
   const b3Lang = useB3Lang();
   const [isMobile] = useMobile();
 
@@ -107,7 +105,7 @@ export default function MainHeader({ title }: { title: string }) {
                   fontSize: '16px',
                 }}
                 onClick={() => {
-                  navigate('/login');
+                  window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
                 }}
               >
                 {b3Lang('global.B3MainHeader.signIn')}

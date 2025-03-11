@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { useB3Lang } from '@b3/lang';
 import { Box, ImageListItem, Typography } from '@mui/material';
 
@@ -48,7 +47,6 @@ export function ForgotPassword({
     mode: 'onSubmit',
   });
 
-  const navigate = useNavigate();
   const emailAddressReset = watch('emailAddress');
 
   useEffect(() => {
@@ -68,7 +66,7 @@ export function ForgotPassword({
       if (isEnabledOnStorefront && captchaKey) {
         try {
           await requestResetPassword(captchaKey, emailAddressReset);
-          navigate('/login?loginFlag=receivePassword');
+          window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
           setLoading(false);
         } catch (e) {
           b2bLogger.error(e);
@@ -78,7 +76,7 @@ export function ForgotPassword({
       if (!isEnabledOnStorefront) {
         await sendEmail(emailAddress);
         setLoading(false);
-        navigate('/login?loginFlag=receivePassword');
+        window.location.href = `${window.location.origin}/login/?logoutFromB2b=true`;
       }
     } catch (e) {
       b2bLogger.error(e);
