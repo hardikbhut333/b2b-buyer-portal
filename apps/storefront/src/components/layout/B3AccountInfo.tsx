@@ -8,6 +8,8 @@ import { useAppSelector } from '@/store';
 
 import B3DropDown, { ListItemProps } from '../B3DropDown';
 
+declare let window: any
+
 interface ListProps {
   [key: string]: string;
 }
@@ -40,6 +42,9 @@ export default function B3AccountInfo({ closeSidebar }: B3AccountInfoProps) {
     if (!item) return;
 
     if (item.key === 'logout') {
+      if(window?.experro_utis){
+        await window?.experro_utis?.logout();
+      }
       navigate('/login?loginFlag=loggedOutLogin');
     } else if (item.type === 'path' && item.key) {
       navigate(item.key);

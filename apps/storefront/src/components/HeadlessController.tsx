@@ -194,7 +194,7 @@ export default function HeadlessController({ setOpenPage }: HeadlessControllerPr
             } catch (e) {
               b2bLogger.error(e);
             } finally {
-              window.sessionStorage.clear();
+              window.localStorage.clear();
               logoutSession();
               window.b2b.callbacks.dispatchEvent(B2BEvent.OnLogout);
             }

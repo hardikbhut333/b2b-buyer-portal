@@ -39,6 +39,8 @@ import LoginForm from './LoginForm';
 import LoginPanel from './LoginPanel';
 import { LoginContainer, LoginImage } from './styled';
 
+declare let window: any;
+
 const useMasquerade = () => {
   const isAgenting = useAppSelector(({ b2bFeatures }) => b2bFeatures.masqueradeCompany.isAgenting);
   const salesRepCompanyId = useAppSelector(({ b2bFeatures }) => b2bFeatures.masqueradeCompany.id);
@@ -171,6 +173,12 @@ export default function Login(props: PageProps) {
     logout();
   }, [b3Lang, endMasquerade, isLoggedIn, isAgenting, searchParams, selectCompanyHierarchyId]);
 
+  useEffect(() => {
+    if (window.experro_utis?.getUserDetails()?.userInfo?.id && window.experro_utis && !window.b2b.utils.user.getProfile()?.emailAddress) {
+      window.experro_utis?.logout();
+    }
+  }, []);
+
   const tipInfo = (loginFlag?: LoginFlagType, email = '') => {
     if (!loginFlag) return '';
 
@@ -248,7 +256,9 @@ export default function Login(props: PageProps) {
             storeHash,
             channelId,
           };
-
+          if (window.experro_utis) {
+            await window.experro_utis?.login(data);
+          }
           const isForcePasswordReset = await forcePasswordReset(data.emailAddress, data.password);
           if (isForcePasswordReset) return;
 
